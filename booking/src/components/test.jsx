@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
-import { Datepicker, Page, getJson, setOptions, localeFr } from '@mobiscroll/react';
+ import { Datepicker } from '@mobiscroll/react';
 
-setOptions({
-    locale: localeFr,
-    theme: 'ios',
-    themeVariant: 'light'
-});
+// setOptions({
+//     locale: localeFr,
+//     theme: 'ios',
+//     themeVariant: 'light'
+// });
 
 function App() {
+    const [users, setUsers] = useState([]);
+    const [bookings, setBookings] = useState([]);
+
+
     // const [multiple, setMultiple] = React.useState([
     //     '2021-08-11T00:00',
     //     '2021-08-16T00:00',
@@ -16,28 +20,28 @@ function App() {
     // ]);
     const min = '2021-08-25T00:00';
     const max = '2022-02-25T00:00';
-    const [singleLabels, setSingleLabels] = React.useState([]);
-    const [singleInvalid, setSingleInvalid] = React.useState([]);
-    const [datetimeLabels, setDatetimeLabels] = React.useState([]);
-    const [datetimeInvalid, setDatetimeInvalid] = React.useState([]);
+    // const [singleLabels, setSingleLabels] = React.useState([]);
+    // const [singleInvalid, setSingleInvalid] = React.useState([]);
+    // const [datetimeLabels, setDatetimeLabels] = React.useState([]);
+    // const [datetimeInvalid, setDatetimeInvalid] = React.useState([]);
 
     // const [multipleLabels, setMultipleLabels] = React.useState([]);
     // const [multipleInvalid, setMultipleInvalid] = React.useState([]);
     
-    const onPageLoadingSingle = React.useCallback((event, inst) => {
-        getPrices(event.firstDay, (bookings) => {
-            setSingleLabels(bookings.labels);
-            setSingleInvalid(bookings.invalid);
+    // const onPageLoadingSingle = React.useCallback((event, inst) => {
+    //     getPrices(event.firstDay, (bookings) => {
+    //         setSingleLabels(bookings.labels);
+    //         setSingleInvalid(bookings.invalid);
         	
-        });
-    }, []);
+    //     });
+    // }, []);
     
-    const onPageLoadingDatetime = React.useCallback((event, inst) => {
-        getDatetimes(event.firstDay, (bookings) => {
-            setDatetimeLabels(bookings.labels);
-            setDatetimeInvalid(bookings.invalid);
-        });
-    }, []);
+    // const onPageLoadingDatetime = React.useCallback((event, inst) => {
+    //     getDatetimes(event.firstDay, (bookings) => {
+    //         setDatetimeLabels(bookings.labels);
+    //         setDatetimeInvalid(bookings.invalid);
+    //     });
+    // }, []);
     
     // const onPageLoadingMultiple = React.useCallback((event, inst) => {
     //     getBookings(event.firstDay, (bookings) => {
@@ -46,52 +50,52 @@ function App() {
     //     });
     // }, []);
 
-    const getPrices = (d, callback) => {
-        let invalid = [];
-        let labels = [];
+    // const getPrices = (d, callback) => {
+    //     let invalid = [];
+    //     let labels = [];
 
-        getJson('https://trial.mobiscroll.com/getprices/?year=' + d.getFullYear() + '&month=' + d.getMonth(), (bookings) => {
-            for (let i = 0; i < bookings.length; ++i) {
-                const booking = bookings[i];
-                const d = new Date(booking.d);
+    //     getJson('https://trial.mobiscroll.com/getprices/?year=' + d.getFullYear() + '&month=' + d.getMonth(), (bookings) => {
+    //         for (let i = 0; i < bookings.length; ++i) {
+    //             const booking = bookings[i];
+    //             const d = new Date(booking.d);
 
-                if (booking.price > 0) {
-                    labels.push({
-                        start: d,
-                        // title: '$' + booking.price,
-                        textColor: '#e1528f'
-                    });
-                } else {
-                    invalid.push(d);
-                }
-            }
-            callback({ labels: labels, invalid: invalid });
-        }, 'jsonp');
-    }
+    //             if (booking.price > 0) {
+    //                 labels.push({
+    //                     start: d,
+    //                     // title: '$' + booking.price,
+    //                     textColor: '#e1528f'
+    //                 });
+    //             } else {
+    //                 invalid.push(d);
+    //             }
+    //         }
+    //         callback({ labels: labels, invalid: invalid });
+    //     }, 'jsonp');
+    // }
     
-    const getDatetimes = (d, callback) => {
-        let invalid = [];
-        let labels = [];
+    // const getDatetimes = (d, callback) => {
+    //     let invalid = [];
+    //     let labels = [];
 
-        getJson('https://trial.mobiscroll.com/getbookingtime/?year=' + d.getFullYear() + '&month=' + d.getMonth(), (bookings) => {
-            for (let i = 0; i < bookings.length; ++i) {
-                const booking = bookings[i];
-                const bDate = new Date(booking.d);
+    //     getJson('https://trial.mobiscroll.com/getbookingtime/?year=' + d.getFullYear() + '&month=' + d.getMonth(), (bookings) => {
+    //         for (let i = 0; i < bookings.length; ++i) {
+    //             const booking = bookings[i];
+    //             const bDate = new Date(booking.d);
 
-                if (booking.nr > 0) {
-                    labels.push({
-                        start: bDate,
-                        // title: booking.nr + ' SPOTS',
-                        textColor: '#e1528f'
-                    });
-                    invalid = [...invalid, ...booking.invalid];
-                } else {
-                    invalid.push(d);
-                }
-            }
-            callback({ labels: labels, invalid: invalid });
-        }, 'jsonp');
-    }
+    //             if (booking.nr > 0) {
+    //                 labels.push({
+    //                     start: bDate,
+    //                     // title: booking.nr + ' SPOTS',
+    //                     textColor: '#e1528f'
+    //                 });
+    //                 invalid = [...invalid, ...booking.invalid];
+    //             } else {
+    //                 invalid.push(d);
+    //             }
+    //         }
+    //         callback({ labels: labels, invalid: invalid });
+    //     }, 'jsonp');
+    // }
     
     // const getBookings = (d, callback) => {
     //     let invalid = [];
@@ -116,56 +120,46 @@ function App() {
     //     }, 'jsonp');
     // }
 
+    useEffect(() => {
+        fetch('http://localhosthost:4242/users',
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'Application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(response => setUsers(response)
+            )
+    }, [])
+
+    useEffect(() => {
+        fetch('http://localhosthost:4242/booking',
+            {
+                method: "GET",
+                headers: {
+                    'Accept': 'Application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(response => setBookings(response)
+            )
+
+    }, [])
+console.log(users);
     return (
-        <Page className="md-calendar-booking">
-            <div className="mbsc-form-group">
-                <div className="mbsc-form-group-title">Single date & appointment booking</div>
-                <Datepicker 
-                    display="inline"
-                    controls={['calendar']}
-                    min={min}
-                    max={max}
-                    labels={singleLabels}
-                    invalid={singleInvalid}
-                    pages="auto"
-                    onPageLoading={onPageLoadingSingle}
-                />
+        <div className="bookings" id="booking">
+            <h1>Reservations:</h1>
+            <div>
+            {users.map(user =><p>{user.name} a reservé </p>)}
+            {bookings.map(booking =><p>la solution {booking.solutions} pour cet date:{booking.date}</p>)}
             </div>
-            <div className="mbsc-form-group">
-                <div className="mbsc-form-group-title">Select date & time</div>
-                <Datepicker 
-                    name= "test"
-                    display="inline"
-                    controls={['calendar', 'timegrid']}
-                    min={min}
-                    max={max}
-                    minTime="09:00"
-                    maxTime="19:00"
-                    stepMinute={60}
-                    width={null}
-                    labels={datetimeLabels}
-                    invalid={datetimeInvalid}
-                    onPageLoading={onPageLoadingDatetime}
-                    cssClass="booking-datetime"
-                />
-            </div>
-{/*             
-            <div className="mbsc-form-group">
-                <div className="mbsc-form-group-title">Booking multiple appointments</div>
-                <Datepicker 
-                    display="inline"
-                    controls={['calendar']}
-                    value={multiple}
-                    min={min}
-                    max={max}
-                    labels={multipleLabels}
-                    invalid={multipleInvalid}
-                    pages="auto"
-                    selectMultiple={true}
-                    onPageLoading={onPageLoadingMultiple}
-                />
-            </div> */}
-        </Page>
+            <Datepicker
+    controls={['calendar']}
+    display="inline"
+    touchUi={true}
+ />
+        </div>
     );
 }
 

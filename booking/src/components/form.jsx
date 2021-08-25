@@ -1,7 +1,7 @@
  
 import React, { useState, useEffect } from "react";
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
-import { Datepicker } from '@mobiscroll/react';
+// import { Datepicker } from '@mobiscroll/react';
 import DatePicker from 'react-date-picker';
 
 import apiCall from "../apiCall";
@@ -9,10 +9,12 @@ import apiCall from "../apiCall";
 import './form.css'
 
 const Formulaire = () => {
+    const [users, setUsers] = useState([]);
+    const [bookings, setBookings] = useState([]);
     const [name, setName] = useState("");
     const [prenom, setPrenom] = useState("");
     const [company, setCompany] = useState("");
-    const [date, setDate] = useState("");
+    const [date, setDate] =  useState(new Date());
     const [tel, setTel] = useState("");
     const [email, setEmail] = useState("");
     const [commentaire, setCommentaire] = useState("");
@@ -97,11 +99,31 @@ const Formulaire = () => {
                 tel: tel,
                 company: company
             }
-            apiCall('/create/users', 'POST', body, null, (response) => {
+            apiCall('/createUser', 'POST', body, null, (response) => {
                 setTimeout(() => {
                     successMessage()
                 }, 4000)
-            })
+            })  
+            // apiCall('/createBooking', 'POST', body, null, (response) => {
+            //     setTimeout(() => {
+            //         successMessage()
+            //     }, 4000)
+            // })
+            // useEffect(() => {
+            //     fetch('https://localhosthost:4242/createUser',
+            //         {
+            //             method: "POST",
+            //             headers: {
+            //                 'Accept': 'Application/json'
+            //             },
+            //             body: body
+            //         })
+            //         .then(res => res.json())
+            //         .then(response => setUsers(response))
+        
+            // }, [])
+            
+        
         }
 
 
@@ -112,32 +134,56 @@ const Formulaire = () => {
         }
     };
 
-    useEffect(() => {
-        fetch('https://localhosthost:4242/users',
-            {
-                method: "GET",
-                headers: {
-                    'Accept': 'Application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(response => {
-            })
-    }, [])
+    // useEffect(() => {
+    //     fetch('https://localhosthost:4242/users',
+    //         {
+    //             method: "GET",
+    //             headers: {
+    //                 'Accept': 'Application/json'
+    //             }
+    //         })
+    //         .then(res => res.json())
+    //         .then(response => setUsers(response))
+    // }, [])
 
-    useEffect(() => {
-        fetch('https://localhosthost:4242/booking',
-            {
-                method: "GET",
-                headers: {
-                    'Accept': 'Application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(response => {
-            })
-    }, [])
+    // useEffect(() => {
+    //     fetch('https://localhosthost:4242/booking',
+    //         {
+    //             method: "GET",
+    //             headers: {
+    //                 'Accept': 'Application/json'
+    //             }
+    //         })
+    //         .then(res => res.json())
+    //         .then(response => setBookings(response))
 
+    // }, [])
+    // useEffect(() => {
+    //     fetch('https://localhosthost:4242/createUser',
+    //         {
+    //             method: "POST",
+    //             headers: {
+    //                 'Accept': 'Application/json'
+    //             },
+                
+    //         })
+    //         .then(res => res.json())
+    //         .then(response => setUsers(response))
+
+    // }, [])
+
+    // useEffect(() => {
+    //     fetch('https://localhosthost:4242/createBooking',
+    //         {
+    //             method: "POST",
+    //             headers: {
+    //                 'Accept': 'Application/json'
+    //             }
+    //         })
+    //         .then(res => res.json())
+    //         .then(response => setBookings(response))
+
+    // }, [])
     return (
         <>
             
@@ -208,7 +254,7 @@ const Formulaire = () => {
                     <DatePicker
                     id="date"
                     name="date"
-                        onChange={(e) => setDate(e.target.value)}
+                        onChange={setDate}
                         value={date}
                      />
                     {/* <input

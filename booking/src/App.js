@@ -1,6 +1,6 @@
 import { Route,BrowserRouter as Router, Switch } from 'react-router-dom';
 import Formulaire from './components/form';
-import Test from './components/test';
+import Reservations from './components/test';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <Switch>
       
           <Route path='/' exact component={Formulaire}/>
-          <Route path='/test' exact component={Test}/>
+          <Route path='/reservations' exact component={Reservations}/>
 
         </Switch>
       </Router>

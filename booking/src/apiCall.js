@@ -1,4 +1,4 @@
-const urlAPI = 'hhttp://localhost:4242'
+const urlAPI = 'http://localhost:4242'
 
 export default function apiCall(path, method, body, _, callback) {
     let init;
